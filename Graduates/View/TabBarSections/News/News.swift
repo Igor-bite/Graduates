@@ -9,13 +9,11 @@ import SwiftUI
 
 struct News: View {
     var body: some View {
-        Text("News")
-    }
-}
+        ZStack {
+            LinearGradient(gradient: .init(colors: [Color("news1"), Color("news2")]), startPoint: .leading, endPoint: .trailing)
 
-struct News_Previews: PreviewProvider {
-    static var previews: some View {
-        News()
+            Text("News")
+        }
     }
 }
 

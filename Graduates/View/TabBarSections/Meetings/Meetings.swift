@@ -8,8 +8,13 @@
 import SwiftUI
 
 struct Meetings: View {
+    
     var body: some View {
-        Text("Встречи")
+        ZStack {
+            LinearGradient(gradient: .init(colors: [Color("meet1"), Color("meet2")]), startPoint: .leading, endPoint: .trailing)
+
+            Text("Встречи")
+        }
     }
 }
 

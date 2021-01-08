@@ -12,19 +12,15 @@ struct ContentView: View {
     @AppStorage("status") var logged = false
     
     var body: some View {
-
-        NavigationView {
-            
-            VStack {
-                if logged {
-                    Home()
-                } else {
-                    Login()
-                }
+        VStack {
+            if logged {
+                Home()
+            } else {
+                Login()
             }
-            .preferredColorScheme(.dark)
-            .navigationBarHidden(true)
         }
+        .preferredColorScheme(.dark)
+        .navigationBarHidden(true)
     }
 }
 

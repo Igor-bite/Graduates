@@ -10,13 +10,13 @@ import SwiftUI
 struct Chat: View {
     @AppStorage("status") var logged = true
     var body: some View {
-//        Text("Chat")
         
-        Button("Log Out") {
-            logged = false
+        ZStack {
+            LinearGradient(gradient: .init(colors: [.blue, Color("green")]), startPoint: .leading, endPoint: .trailing)
+            
+            Text("Chat")
         }
-        .padding()
-        .foregroundColor(Color.white)
+        
     }
 }
 

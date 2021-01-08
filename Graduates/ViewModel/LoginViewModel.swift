@@ -51,7 +51,7 @@ class LoginViewModel : ObservableObject {
         
         let scanner = LAContext()
         scanner.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "To Unlock \(email)") { (status, err) in
-            if err != nil{
+            if err != nil {
                 print(err!.localizedDescription)
                 return
             }
@@ -67,38 +67,12 @@ class LoginViewModel : ObservableObject {
     // Verifying User...
     
     func verifyUser(){
-        
         isLoading = true
-        
-        Auth.auth().signIn(withEmail: email, password: password) { (res, err) in
-            
-            self.isLoading = false
-            
-            if let error = err{
-                self.alertMsg = error.localizedDescription
-                self.alert.toggle()
-                return
-            }
-            
-            // Success
-            
-            // Promoting User For Save data or not...
-            
-            if self.Stored_User == "" || self.Stored_Password == ""{
-                self.store_Info.toggle()
-                return
-            }
-            
-            // Else Goto Home...
-            
-            withAnimation{self.logged = true}
-        }
+        loginService.verifyUser(model: self)
     }
     
     func addLikeNewUser(){
-        
         isLoading = true
-        
         loginService.makeNewUserWith(model: self)
     }
 }
