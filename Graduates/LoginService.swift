@@ -46,6 +46,9 @@ class LoginService {
             if model.Stored_User == "" || model.Stored_Password == ""{
                 model.store_Info.toggle()
                 return
+            } else {
+                print(model.Stored_User)
+                print(model.Stored_Password)
             }
             
             // Else Goto Home...

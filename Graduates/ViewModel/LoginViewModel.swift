@@ -35,13 +35,16 @@ class LoginViewModel : ObservableObject {
     // Getting BioMetricType....
     
     func getBioMetricStatus()->Bool{
-        
         let scanner = LAContext()
-        if email != "" && email == Stored_User && scanner.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: .none){
+        var error: NSError?
+                
+        if email != "" && email == Stored_User && scanner.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error){
             
             return true
+        } else {
+            print(error?.localizedDescription)
         }
-        
+    
         return false
     }
     

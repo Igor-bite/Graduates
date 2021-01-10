@@ -15,6 +15,7 @@ struct Home : View {
     @State var index = 0
     @State var show = false
     @AppStorage("status") var logged = false
+    @State var logOutAlert = false
 
     @State var selected = "Вакансии"
     
@@ -67,7 +68,9 @@ struct Home : View {
 
                     Button(action: {
 
-                        logged = false
+//                        logged = false
+                        
+                        self.logOutAlert = true
                     }) {
 
                         HStack(spacing: 10){
@@ -205,6 +208,11 @@ struct Home : View {
                     }
                 }
             }
+            .alert(isPresented: $logOutAlert, content: {
+                Alert(title: Text("Are you sure?"), primaryButton: .cancel(), secondaryButton: .destructive(Text("Yes"), action: {
+                    logged = false
+                }))
+            })
         }
     }
 }
