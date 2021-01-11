@@ -25,7 +25,7 @@ struct Home : View {
     
     @State var centerX : CGFloat = 0
     
-    var database = RealtimeDatabase()
+    private var database = RealtimeDatabase.getInstance()
     
     var body: some View {
         

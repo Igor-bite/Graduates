@@ -9,7 +9,7 @@ import SwiftUI
 import Firebase
 
 class LoginService {
-    let database = RealtimeDatabase()
+    let database = RealtimeDatabase.getInstance()
     
     func makeNewUserWith(model: RegisterViewModel) {
         if !model.arePasswordsSame() {
@@ -70,6 +70,7 @@ class LoginService {
     }
     
     func logOut() {
+        database.clearAll()
         UserDefaults.standard.set(false, forKey: "status")
     }
 }
