@@ -8,9 +8,18 @@
 import SwiftUI
 import Firebase
 
-class LoginService {    
-    func makeNewUserWith(model: LoginViewModel) {
-        Auth.auth().createUser(withEmail: model.email, password: model.password) { (res, err) in
+class LoginService {
+    let database = RealtimeDatabase()
+    
+    func makeNewUserWith(model: RegisterViewModel) {
+        if !model.arePasswordsSame() {
+            model.isLoading = false
+            model.alertMsg = "Passwords are different. Try again"
+            model.alert.toggle()
+            return
+        }
+        
+        Auth.auth().createUser(withEmail: model.email, password: model.password) { [self] (res, err) in
             
             model.isLoading = false
             
@@ -22,7 +31,7 @@ class LoginService {
             
             // Success
             
-            // Else Goto Home...
+            database.save(model: model)
             
             withAnimation{model.logged = true}
         }

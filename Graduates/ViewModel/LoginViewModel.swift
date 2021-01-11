@@ -73,10 +73,5 @@ class LoginViewModel : ObservableObject {
         isLoading = true
         loginService.verifyUser(model: self)
     }
-    
-    func addLikeNewUser(){
-        isLoading = true
-        loginService.makeNewUserWith(model: self)
-    }
 }
 

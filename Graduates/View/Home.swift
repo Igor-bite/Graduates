@@ -25,6 +25,8 @@ struct Home : View {
     
     @State var centerX : CGFloat = 0
     
+    var database = RealtimeDatabase()
+    
     var body: some View {
         
         ZStack {
@@ -49,7 +51,7 @@ struct Home : View {
                         .foregroundColor(.white)
                         .padding(.top, 10)
 
-                    Text("Иван")
+                    Text(self.database.getCurUserName())
                         .fontWeight(.bold)
                         .font(.title)
                         .foregroundColor(.white)

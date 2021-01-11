@@ -10,7 +10,7 @@ import SwiftUI
 struct Register : View {
     @Environment(\.presentationMode) var presentationMode
 
-    @StateObject var LoginModel = LoginViewModel()
+    @StateObject var RegisterModel = RegisterViewModel()
     
     @State var startAnimate = false
     
@@ -48,42 +48,20 @@ struct Register : View {
                 .padding()
                 .padding(.leading,15)
                 
-                HStack{
-                    
-                    Image(systemName: "envelope")
-                        .font(.title2)
-                        .foregroundColor(.white)
-                        .frame(width: 35)
-                    
-                    TextField("EMAIL", text: $LoginModel.email)
-                        .autocapitalization(.none)
-                        .foregroundColor(.white)
+                ScrollView(.vertical, showsIndicators: true) {
+                    registrationField(title: "NAME", imageName: "textbox", isSecure: false, RegisterModelProperty: $RegisterModel.name)
+                    registrationField(title: "SURNAME", imageName: "textbox", isSecure: false, RegisterModelProperty: $RegisterModel.surname)
+                    registrationField(title: "COUNTRY", imageName: "globe", isSecure: false, RegisterModelProperty: $RegisterModel.country)
+                    registrationField(title: "UNIVERSITY", imageName: "studentdesk", isSecure: false, RegisterModelProperty: $RegisterModel.university)
+
+                    registrationField(title: "EMAIL", imageName: "envelope", isSecure: false, RegisterModelProperty: $RegisterModel.email)
+                    registrationField(title: "PASSWORD", imageName: "lock", isSecure: true, RegisterModelProperty: $RegisterModel.password)
+                    registrationField(title: "REPEAT PASSWORD", imageName: "lock", isSecure: true, RegisterModelProperty: $RegisterModel.passwordAgain)
                 }
-                .padding()
-                .background(Color.white.opacity(LoginModel.email == "" ? 0 : 0.12))
-                .cornerRadius(15)
-                .padding(.horizontal)
-                
-                HStack{
-                    
-                    Image(systemName: "lock")
-                        .font(.title2)
-                        .foregroundColor(.white)
-                        .frame(width: 35)
-                    
-                    SecureField("PASSWORD", text: $LoginModel.password)
-                        .autocapitalization(.none)
-                        .foregroundColor(.white)
-                }
-                .padding()
-                .background(Color.white.opacity(LoginModel.password == "" ? 0 : 0.12))
-                .cornerRadius(15)
-                .padding(.horizontal)
-                .padding(.top)
                 
                 HStack(spacing: 15){
                     
-                    Button(action: LoginModel.addLikeNewUser, label: {
+                    Button(action: RegisterModel.register, label: {
                         Text("SIGN UP")
                             .fontWeight(.heavy)
                             .foregroundColor(.black)
@@ -92,10 +70,10 @@ struct Register : View {
                             .background(Color("green"))
                             .clipShape(Capsule())
                     })
-                    .opacity(LoginModel.email != "" && LoginModel.password != "" ? 1 : 0.5)
-                    .disabled(LoginModel.email != "" && LoginModel.password != "" ? false : true)
-                    .alert(isPresented: $LoginModel.alert, content: {
-                        Alert(title: Text("Error"), message: Text(LoginModel.alertMsg), dismissButton: .destructive(Text("Ok")))
+                    .opacity(RegisterModel.isFull() ? 1 : 0.5)
+                    .disabled(RegisterModel.isFull() ? false : true)
+                    .alert(isPresented: $RegisterModel.alert, content: {
+                        Alert(title: Text("Error"), message: Text(RegisterModel.alertMsg), dismissButton: .destructive(Text("Ok")))
                     })
 
                 }
@@ -118,7 +96,7 @@ struct Register : View {
             .background(Color("bg").ignoresSafeArea(.all, edges: .all))
             .animation(startAnimate ? .easeOut : .none)
             
-            if LoginModel.isLoading{
+            if RegisterModel.isLoading{
 
                 Loading_Screen()
             }
@@ -128,5 +106,37 @@ struct Register : View {
                 self.startAnimate.toggle()
             }
         })
+    }
+}
+
+struct registrationField : View {
+    var title: String
+    var imageName: String
+    var isSecure: Bool
+    @Binding var RegisterModelProperty: String
+    
+    var body: some View {
+        HStack{
+            
+            Image(systemName: imageName)
+                .font(.title2)
+                .foregroundColor(.white)
+                .frame(width: 35)
+            
+            if isSecure {
+                SecureField(title, text: $RegisterModelProperty)
+                    .autocapitalization(.none)
+                    .foregroundColor(.white)
+            } else {
+                TextField(title, text: $RegisterModelProperty)
+                    .autocapitalization(.none)
+                    .foregroundColor(.white)
+            }
+        }
+        .padding()
+        .background(Color.white.opacity(RegisterModelProperty == "" ? 0 : 0.12))
+        .cornerRadius(15)
+        .padding(.horizontal)
+        .padding(.top)
     }
 }
