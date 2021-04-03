@@ -8,7 +8,7 @@
 import SwiftUI
 //import Firebase
 
-class PostViewModel : ObservableObject{
+class PostViewModel : ObservableObject {
     @Published var posts : [PostModel] = []
     @Published var noPosts = false
     @Published var newPost = false
